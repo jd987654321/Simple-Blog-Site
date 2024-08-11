@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Site</title>
+    <style>
+        button{
+            width: 100px;
+            height: 100px;
+            display: block;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="text">some text</div>
+    <title>Placeholder Title</title>
+    <input id="data" type="text" value="starting">
+    <button id="save">save</button>
+    <button>
+        <a href="/new">new page</a>
+    </button>
+    <button>
+        <a href="/pages">test page</a>
+    </button>
+
+    <script>
+        let myButton = document.getElementById('save')
+        let textDiv = document.getElementById('text')
+        let data = document.getElementById('data')
+        myButton.onclick = function(event){
+            console.log(data.value)
+            fetch('/info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: data.value})
+            })
+            console.log(JSON.stringify({text: data.value}))
+            data.value = ''
+        }
+    </script>
+</body>
+</html>
+

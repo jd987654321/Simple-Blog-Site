@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<script defer src="/front_end/script.js"></script>
+<style>
+    body > div{
+        display: inline;
+    }
+
+    button, #blog-text{
+        display: block;
+    }
+
+    #blog-text{
+        width: 500px;
+        height: 300px;
+    }
+</style>
+<body>
+    <div>Title: <input id="title"></div>
+    <textarea id="blog-text" name="comments" rows="4" cols="50"></textarea>
+    <button id="save">Save</button>
+    <button>
+        <a href="/">Back</a>
+    </button>
+</body>
+</html>
+

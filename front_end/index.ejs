@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        button{
+            height: 20px;
+            display: block;
+        }
+        ul{
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blogs</h1>
+    <ul>
+        <% files.forEach((element) => {%>
+            <li>
+                <a href="page/<%=element%>">
+                    <button>
+                        <%= decodeURIComponent(element.slice(0,-4)) %>
+                    </button>
+                </a>
+            </li>
+        <% }) %>
+    </ul>
+    <button>
+        <a href="/new">new page</a>
+    </button>
+    <button>
+        <a href="/pages">test page</a>
+    </button>
+    <button>
+        <a href="/">back</a>
+    </button>
+</body>
+</html>
