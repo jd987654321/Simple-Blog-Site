@@ -10,17 +10,19 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname))
 app.use(express.json())
 
-// app.get('/', (req, res) => {
-//   res.sendFile(__dirname + '/front_end/index.html')
-// })
+
+function getPageData(title){
+  try{
+    const data = fs.readFileSync(__dirname + `/blogs/${encodeURIComponent(title)}`, 'utf8')
+    return data
+  }catch(err){
+    console.error('Error reading file: ', err)
+    return null
+  }
+}
 
 app.get('/page/:title', (req, res) => {
-  let title = encodeURIComponent(req.params.title)
-
-  fs.readFile(`blogs/${title}`, (err, data) => {
-    if(err) throw err
-    res.render(__dirname + '/front_end/page.ejs', {title: req.params.title, text: data})
-  })
+  res.render(__dirname + '/front_end/page.ejs', {title: req.params.title, text: getPageData(req.params.title)})
 })
 
 app.get('/', (req, res) => {
@@ -31,14 +33,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/new', (req, res) => {
-  res.sendFile(__dirname + "/front_end/new_page.html")
+  res.render(__dirname + "/front_end/edit_page.ejs", {title: "", text: ""})
 })
 
-app.get("/info", (req, res) => {
-  let jsonObj = JSON.stringify({text: "some info"})
-  console.log(jsonObj)
-  res.send(jsonObj)
+app.get('/editPage/:title', (req, res) => {
+  res.render(__dirname + "/front_end/edit_page.ejs", {title: req.params.title, text: getPageData(req.params.title)})
 })
+
+// app.get("/info", (req, res) => {
+//   let jsonObj = JSON.stringify({text: "some info"})
+//   res.send(jsonObj)
+// })
 
 app.get("/test/:name/:extra", (req, res) => {
   console.log(req.params.name + ' ' + req.params.extra)
@@ -59,34 +64,31 @@ app.post('/savePage', (req, res) => {
   })
 })
 
+app.delete('/:title', (req, res) => {
+  console.log(__dirname + `/blogs/${req.params.title}`)
+  fs.unlink(__dirname + `/blogs/${encodeURIComponent(req.params.title)}`, (err) => {
+    if(err) throw err
+    console.log('file was successfully deleted')
+  })
+  res.status(200)
+})
+
 app.listen(port, () => {
   console.log(`Server started on port ${port}`)
 })
 
-//simple blog application
-/**
- * front end portion, extremely barebones html
- * We will have one page that lists all of the current blog pages
- * 
- * Each section for each blog will be clickable and lead us to a page where
- *  we can edit and save changes to the blog
- * 
- * We will also have a button to create new blog, which leads us to either the 
- *  same page for editing blogs, or a specific creation page
- * 
- * 
- * backend portion, so we want a txt file to store each blog file
- *  we need a function that returns all list of available txt files in a folder
- *  we also need a function to help provide the html for each page since i think
- *  we are doing server side rendering 
- */
+
 
 /**
- * -> ejs template for displaying all the blogs
- * -> html page for writing new blog
- * -> ejs template for rendering the content on the txt file
+ * to do list
  * 
- * the problem is that i will make whateer the user types, the title
- * so to solve this, 
+ * -make each blog page deletable, add button and app.delete method
+ * -make an edit page, and a ejs template for edit pages if need be, we might be able to get away with using new_page.html
  * 
+ * the current problem is that edits wont be saved to the original file
+ * due to conflicting title names
+ * 
+ * life cycle of a file
+ * displayed    title stays 
+ * index.ejs -> page.ejs     ->
  */

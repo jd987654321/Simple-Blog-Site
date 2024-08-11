@@ -20,8 +20,8 @@
     }
 </style>
 <body>
-    <div>Title: <input id="title"></div>
-    <textarea id="blog-text" name="comments" rows="4" cols="50"></textarea>
+    <div>Title: <input id="title" value="<%= title %>"></div>
+    <textarea id="blog-text" name="comments" rows="4" cols="50" type="text"><%= text %></textarea>
     <button id="save">Save</button>
     <button>
         <a href="/">Back</a>
