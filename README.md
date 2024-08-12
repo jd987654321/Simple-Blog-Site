@@ -8,3 +8,4 @@ or
 ```bash
 node server.js
 ```
+After running the server, access the app at `localhost:5500`
